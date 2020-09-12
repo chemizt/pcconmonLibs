@@ -44,4 +44,4 @@ jobs:
     - name: Generate build system
       run: rm PreLoad.cmake && mkdir build && cd build && cmake ..
     - name: Build
-      run: cd build && MSBuild pcConMon.sln /p:Configuration=Release /p:Platform=x64 /m
+      run: cd build && MSBuild pcConMonLibs.sln /p:Configuration=Release /p:Platform=x64 /m
