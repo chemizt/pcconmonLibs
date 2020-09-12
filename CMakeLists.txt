@@ -54,13 +54,13 @@ target_link_libraries(structureLib PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(providerLib structureLib)
 
 add_custom_target(
-    debug
+    debugLibs
     COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Debug ${CMAKE_SOURCE_DIR}
     COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target all
 )
 
 add_custom_target(
-    release
+    releaseLibs
     COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Release ${CMAKE_SOURCE_DIR}
     COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target all
 )
