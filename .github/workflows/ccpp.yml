@@ -24,7 +24,7 @@ jobs:
     - name: Generate build system
       run: mkdir build && cd build && cmake ..
     - name: Build
-      run: cd build && make release -j2
+      run: cd build && make releaseLibs -j2
   build-windows:
     runs-on: windows-latest
     steps:
