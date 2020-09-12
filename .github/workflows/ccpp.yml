@@ -1,0 +1,47 @@
+name: build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v2
+    - name: Cache submodules
+      id: cache-submods
+      uses: actions/cache@v2
+      with:
+        path: external/**
+        key: ${{ runner.os }}-submods    
+    - name: Checkout submodules if none are cached
+      if: steps.cache-submods.outputs.cache-hit != 'true'
+      run: git submodule update --init
+    - name: Generate build system
+      run: mkdir build && cd build && cmake ..
+    - name: Build
+      run: cd build && make release -j2
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v2
+    - name: Cache submodules
+      id: cache-submods
+      uses: actions/cache@v2
+      with:
+        path: external/**
+        key: ${{ runner.os }}-submods    
+    - name: Checkout submodules if none are cached
+      if: steps.cache-submods.outputs.cache-hit != 'true'
+      run: git submodule update --init
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1
+    - name: Generate build system
+      run: rm PreLoad.cmake && mkdir build && cd build && cmake ..
+    - name: Build
+      run: cd build && MSBuild pcConMon.sln /p:Configuration=Release /p:Platform=x64 /m
